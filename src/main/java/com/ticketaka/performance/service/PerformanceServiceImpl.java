@@ -32,7 +32,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<RankedPerformanceInfo> getRankedPerformanceInfoList() {
         // top10을 하드코딩해서 계속 25년 2월 2일을 봐야함 -> '2025-02-02'로 하드코딩
         // LocalDate baseDate = LocalDate.now(ZoneId.of("Asia/Seoul")).minusDays(1);
-        LocalDate baseDate = "2025-02-02"
+        LocalDate baseDate = "2025-02-02";
         log.info("BaseDate: " + baseDate.toString());
         List<RankedPerformanceInfo> rankedPerformanceInfoList = getRankedPerformanceByBaseTime(baseDate);
         if (rankedPerformanceInfoList.isEmpty()) {
