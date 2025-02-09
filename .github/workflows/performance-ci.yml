@@ -39,7 +39,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonar --info
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build sonar --info
 
       # Auto-tagging 및 Release 생성
       - name: Bump version and push tag
