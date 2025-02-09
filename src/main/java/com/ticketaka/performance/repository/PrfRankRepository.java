@@ -10,4 +10,5 @@ import java.util.List;
 public interface PrfRankRepository extends JpaRepository<PrfRank, Integer> {
     @EntityGraph(value = "Rank.performance.facility")
     List<PrfRank> findTop10ByBaseDate(LocalDate baseTime);
+    List<PrfRank> findByBaseDate(LocalDate baseDate);
 }
