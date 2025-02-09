@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.7'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'com.ticketaka'
@@ -36,6 +37,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+sonar {
+  properties {
+    property "sonar.projectKey", "ticketaka"
+    property "sonar.projectName", "ticketaka"
+  }
+}
 //tasks.named('test') {
 //	useJUnitPlatform()
 //}
