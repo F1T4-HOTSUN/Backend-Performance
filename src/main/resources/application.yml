@@ -35,4 +35,4 @@ member:
   port: ${MEMBER_PORT}
 
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT} 
