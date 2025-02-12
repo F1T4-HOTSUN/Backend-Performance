@@ -39,8 +39,8 @@ dependencies {
 
 sonar {
   properties {
-    property "sonar.projectKey", "ticketaka"
-    property "sonar.projectName", "ticketaka"
+    property "sonar.projectKey", "ticketaka-performance"
+    property "sonar.projectName", "ticketaka-performance"
   }
 }
 //tasks.named('test') {
