@@ -85,11 +85,11 @@ jobs:
 
       # Cosign 설치 -> 환경변수 설정 등 필요하므로 로컬에서 작업 후 사전설정
       # - name: Install Cosign
-      #   uses: sigstore/cosign-installer@v3.5.0
+      #   uses: sigstore/cosign-installer@v2.4.2
 
       # Cosign 이미지 서명
       - name: Sign Docker Image with Cosign
-        uses: sigstore/cosign@v3.5.0
+        uses: sigstore/cosign@v2.4.2
         with:
           key: ${{ secrets.COSIGN_PRIVATE_KEY }}
           password: ${{ secrets.COSIGN_PASSWORD }}
