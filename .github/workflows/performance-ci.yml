@@ -83,20 +83,20 @@ jobs:
           push: false
           tags: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
 
-      # Cosign 설치 -> 환경변수 설정 등 필요하므로 로컬에서 작업 후 사전설정
-      # - name: Install Cosign
-      #   uses: sigstore/cosign-installer@v2.4.2
+      # Cosign 설치
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.8.0
 
-      # Cosign 이미지 서명
+      # Docker 이미지 서명
       - name: Sign Docker Image with Cosign
-        uses: sigstore/cosign@v2.4.2
-        with:
-          key: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          password: ${{ secrets.COSIGN_PASSWORD }}
-          image: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
 
       - name: Push Signed Image to Harbor
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
