@@ -72,7 +72,30 @@ jobs:
           echo "${{ secrets.HARBOR_PASSWORD }}" | docker login harbor.hotsun.store -u "${{ secrets.HARBOR_USERNAME }}" --password-stdin
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build and push to Harbor
+
+      # 이미지 빌드
+      - name: Build Docker Image (Without Pushing)
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: false
+          tags: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
+
+      # Cosign 설치 -> 환경변수 설정 등 필요하므로 로컬에서 작업 후 사전설정
+      # - name: Install Cosign
+      #   uses: sigstore/cosign-installer@v3.5.0
+
+      # Cosign 이미지 서명
+      - name: Sign Docker Image with Cosign
+        uses: sigstore/cosign@v3.5.0
+        with:
+          key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          password: ${{ secrets.COSIGN_PASSWORD }}
+          image: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
+
+      - name: Push Signed Image to Harbor
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -80,6 +103,15 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
+      
+      # - name: Build and push to Harbor
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     platforms: linux/amd64
+      #     push: true
+      #     tags: harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}
       
       # Kubernetes 배포를 위한 Kustomize 업데이트
       - name: Checkout for Kustomize repository
