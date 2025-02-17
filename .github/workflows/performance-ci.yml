@@ -166,4 +166,4 @@ jobs:
           git config --global github.token ${{ secrets.PAT }}
           git commit -am "Update image tag harbor.hotsun.store/ticketaka/ticketaka-performance:${{ steps.tag_version.outputs.new_tag }}"
           git push -u origin main
-           
+            
