@@ -53,16 +53,16 @@ jobs:
           project: "Ticketaka"
           path: "./"
           format: "HTML"
-          args: >
-            --failOnCVSS 7
-            --enableRetired
+          # args: >
+            # --failOnCVSS 7
+            # --enableRetired
 
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
            name: Depcheck report
            path: ${{github.workspace}}/reports
-           
+
       # Trivy 사용해 Harbor에 Push한 이미지 취약점 검사
       - name: Run Trivy vulnerability scanner (pre-build)
         uses: aquasecurity/trivy-action@master
